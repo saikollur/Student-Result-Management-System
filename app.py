@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, url_for, render_template
-from database import init_db, add_student, get_students, search_student
+from database import init_db, add_student, get_students, search_student, update_student, delete_student
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ def home():
     return render_template('index.html')
 
 @app.route('/add', methods=['GET', 'POST'])
-def add_student():
+def add_student_route():
     message = ''
     if request.method == 'POST':
         roll_no = request.form['roll_no'].strip()
@@ -35,7 +35,7 @@ def add_student():
 
 @app.route('/view')
 def view_students():
-    students = get_all_students()
+    students = get_students()
     return render_template('view_students.html', students = students)
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -43,7 +43,7 @@ def search():
     student = None
     message = ''
 
-    if request.methods == 'POST':
+    if request.method == 'POST':
         roll_no = request.form['roll_no'].strip()
 
         if not roll_no:
@@ -53,7 +53,39 @@ def search():
             if not student:
                 message = f'No student found with Roll No: {roll_no}'
 
-    return render_template('search.html', message=message)
-    
+    return render_template('search.html', student=student, message=message)
+
+@app.route('/update/<roll_no>', methods=['GET', 'POST'])
+def update_student_route(roll_no):
+    message = ''
+    student = search_student(roll_no)
+
+    if not student:
+        return render_template('error.html', message=f'No student found with Roll No: {roll_no}')
+
+    if request.method=='POST':
+        name  = request.form['name'].strip()
+        marks = request.form['marks'].strip()
+        grade = request.form['grade'].strip()
+
+        if not name or not marks or not grade:
+            message = 'All fields are required!'
+        elif not marks.isdigit() or not (0 <= int(marks) <= 100):
+            message = 'Marks must be a number between 0 and 100!'
+        else:
+            update_student(roll_no, name, int(marks), grade)
+            return redirect(url_for('view_students'))
+    return render_template('update_student.html', student=student, message=message)
+
+@app.route('/delete/<roll_no>')
+def delete_student_route(roll_no):
+    student = search_student(roll_no)
+
+    if not student:
+        return render_template('error.html', message=f'No student found with Roll No: {roll_no}')
+
+    delete_student(roll_no)
+    return redirect(url_for('view_students'))
+
 if __name__ == "__main__":
     app.run(debug=True)

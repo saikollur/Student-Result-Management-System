@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="form-container">
+    <h2>🔍 Search Student Result</h2>
+
+    <form method="POST" action="{{ url_for('search') }}">
+        <div class="form-group">
+            <label for="roll_no">Enter Roll Number</label>
+            <input type="text" id="roll_no" name="roll_no" placeholder="e.g. 101" required>
+        </div>
+        <button type="submit" class="btn">Search</button>
+    </form>
+
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+
+    {% if student %}
+        <div class="result-card">
+            <h3>Result Found ✅</h3>
+            <table>
+                <tr><th>Roll Number</th><td>{{ student['roll_no'] }}</td></tr>
+                <tr><th>Name</th><td>{{ student['name'] }}</td></tr>
+                <tr><th>Marks</th><td>{{ student['marks'] }}</td></tr>
+                <tr><th>Grade</th><td>{{ student['grade'] }}</td></tr>
+            </table>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
