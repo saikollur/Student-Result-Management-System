@@ -7,7 +7,11 @@
     <p style="color:#888; margin-bottom:20px;">Editing Roll No: <strong>{{ student['roll_no'] }}</strong></p>
 
     {% if message %}
-        <div class="message">{{ message }}</div>
+        {% if 'success:' in message %}
+            <div class="message message-success">{{ message.replace('success:', '') }}</div>
+        {% else %}
+            <div class="message message-error">{{ message.replace('error:', '') }}</div>
+        {% endif %}
     {% endif %}
 
     <form method="POST" action="{{ url_for('update_student_route', roll_no=student['roll_no']) }}">
@@ -22,17 +26,7 @@
             <input type="number" id="marks" name="marks" min="0" max="100" value="{{ student['marks'] }}" required>
         </div>
 
-        <div class="form-group">
-            <label for="grade">Grade</label>
-            <select id="grade" name="grade" required>
-                <option value="">-- Select Grade --</option>
-                <option value="A"  {% if student['grade'] == 'A' %}selected{% endif %}>A</option>
-                <option value="B"  {% if student['grade'] == 'B' %}selected{% endif %}>B</option>
-                <option value="C"  {% if student['grade'] == 'C' %}selected{% endif %}>C</option>
-                <option value="D"  {% if student['grade'] == 'D' %}selected{% endif %}>D</option>
-                <option value="F"  {% if student['grade'] == 'F' %}selected{% endif %}>F</option>
-            </select>
-        </div>
+        <p class="grade-hint">🎓 Current Grade: <strong>{{ student['grade'] }}</strong> — will auto-update on save</p>
 
         <button type="submit" class="btn">Update Student</button>
         <a href="{{ url_for('view_students') }}" class="btn btn-danger">Cancel</a>

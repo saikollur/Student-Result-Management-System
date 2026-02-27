@@ -84,3 +84,27 @@ def delete_student(roll_no):
 
     conn.commit()
     conn.close()
+
+def calculate_grade(marks):
+    if marks >= 90:
+        return 'A+'
+    elif marks >= 80:
+        return 'A'
+    elif marks >= 70:
+        return 'B'
+    elif marks >= 60:
+        return 'C'
+    elif marks >= 50:
+        return 'D'
+    else:
+        return 'F'
+
+def get_student_count():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT COUNT(*) FROM students')
+    count = cursor.fetchone()[0]
+
+    conn.close()
+    return count

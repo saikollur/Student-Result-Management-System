@@ -224,3 +224,89 @@ tr:hover {
     color: #888;
     padding: 30px;
 }
+
+/* SUCCESS / ERROR MESSAGES */
+.message-success {
+    background-color: #eafaf1;
+    border-left: 4px solid #2ecc71;
+    color: #1e8449;
+}
+
+.message-error {
+    background-color: #fdedec;
+    border-left: 4px solid #e74c3c;
+    color: #922b21;
+}
+
+/* GRADE HINT */
+.grade-hint {
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+}
+
+/* STATS BAR */
+.stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 25px 0;
+}
+
+.stat {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* MARKS BADGE */
+.marks-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.marks-pass {
+    background-color: #eafaf1;
+    color: #1e8449;
+}
+
+.marks-fail {
+    background-color: #fdedec;
+    color: #922b21;
+}
+
+/* GRADE BADGES */
+.grade-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background-color: #eaf4fb;
+    color: #2980b9;
+}
+
+.grade-f {
+    background-color: #fdedec;
+    color: #922b21;
+}
+
+.grade-aplus {
+    background-color: #eafaf1;
+    color: #1e8449;
+}
