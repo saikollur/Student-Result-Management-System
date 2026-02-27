@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from werkzeug.security import generate_password_hash, check_password_hash
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH  = os.path.join(BASE_DIR, 'students.db')
@@ -22,6 +23,14 @@ def init_db():
             name TEXT NOT NULL,
             marks INTEGER NOT NULL,
             grade TEXT NOT NULL
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
         )
     ''')
 
@@ -108,3 +117,44 @@ def get_student_count():
 
     conn.close()
     return count
+
+def register_user(username, password):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    hashed = generate_password_hash(password)
+
+    cursor.execute('''
+        INSERT INTO users (username, password)
+        VALUES (?, ?)
+    ''', (username, hashed))
+
+    conn.commit()
+    conn.close()
+
+def get_user(username):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
+    user = cursor.fetchone()
+
+    conn.close()
+    return user
+
+def check_username_exists(username):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT id FROM users WHERE username = ?', (username,))
+    exists = cursor.fetchone()
+
+    conn.close()
+    return exists is not None
+
+def verify_password(username, password):
+    user = get_user(username)
+    if not user:
+        return False
+    return check_password_hash(user['password'], password)
+

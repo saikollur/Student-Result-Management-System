@@ -310,3 +310,21 @@ tr:hover {
     background-color: #eafaf1;
     color: #1e8449;
 }
+
+/* NAV USER & LOGOUT */
+.nav-user {
+    color: #bdc3c7;
+    margin-right: 10px;
+    font-size: 0.9rem;
+}
+
+.btn-logout {
+    color: #e74c3c !important;
+    margin-left: 20px;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.btn-logout:hover {
+    color: #c0392b !important;
+}
