@@ -6,8 +6,11 @@ from database import (init_db, add_student, get_students, search_student,
 from functools import wraps
 import os
 from dotenv import load_dotenv
+
+load_dotenv()
+
 app = Flask(__name__)
-app.secret_key = 'mysecretkey2024studentsystem'
+app.secret_key = os.environ.get('SECRET_KEY')
 #whenever we restart this gives the webserver context
 with app.app_context():
     init_db()
